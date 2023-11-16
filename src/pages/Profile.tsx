@@ -58,9 +58,19 @@ export default function Profile(): React.JSX.Element {
           <ImageView>
             <StyledImage source={{uri: avatar_url}}/>
           </ImageView>
-          <Username>{login}</Username>
+          <MainInfos>
+            <Username>{login}</Username>
+            <IDView>
+              <IDLabel>ID</IDLabel>
+              <ID>{id}</ID>
+            </IDView>
+          </MainInfos>
         </ImageContainer>
         <InfosView>
+          <FollowersView>
+            <Followers>{followers}</Followers>
+            <FollowersLabel>seguidores</FollowersLabel>
+          </FollowersView>
           <Info>
             <TextLabel>Nome</TextLabel>
             <InfoContentView>
@@ -77,7 +87,10 @@ export default function Profile(): React.JSX.Element {
       </ProfileContainer>
 
       <RepositoriesContainer>
-        <RepositoriesLabel>Repositórios</RepositoriesLabel>
+        <HeaderRepositories>
+          <RepositoriesLabel>Repositórios</RepositoriesLabel>
+          <RepositoriesNumber>{public_repos}</RepositoriesNumber>
+        </HeaderRepositories>
         <ScrollView>
           <RepositoriesSubContainer>
             {repositories.map(({
@@ -98,12 +111,18 @@ export default function Profile(): React.JSX.Element {
                       <RepositoryLang>{language}</RepositoryLang>
                     </RepositoryLangView>
                   </TopFromRepository>
-                  <Description>
-                    <Text>{description}</Text>
-                  </Description>
+                  <DescriptionView style={{display: description === null ? 'none' : 'flex'}}>
+                    <Description>{description}</Description>
+                  </DescriptionView>
                   <Dates>
-                    <Text>{created_at.slice(0, 10)}</Text>
-                    <Text>{pushed_at.slice(0, 10)}</Text>
+                    <DateView>
+                      <DateLabel>Criado em</DateLabel>
+                      <DateValue>{created_at.slice(0, 10).split('-').reverse().join('/')}</DateValue>
+                    </DateView>
+                    <DateView>
+                      <DateLabel>Último push em</DateLabel>
+                      <DateValue>{pushed_at.slice(0, 10).split('-').reverse().join('/')}</DateValue>
+                    </DateView>
                   </Dates>
                 </RepositoryView>
               );
@@ -127,7 +146,7 @@ const ProfileContainer = styled.View`
   position: relative;
   margin-top: 10px;
   width: 100%;
-  row-gap: 20px;
+  row-gap: 15px;
 `;
 
 const BackButton = styled.Pressable`
@@ -140,10 +159,8 @@ const BackButton = styled.Pressable`
 `;
 
 const ImageContainer = styled.Pressable`
-  border-radius: 100px;
   align-items: center;
-  justify-content: center;
-  row-gap: 10px;
+  row-gap: 8px;
 `;
 
 const ImageView = styled.View`
@@ -158,13 +175,46 @@ const StyledImage = styled.Image`
   object-fit: contain;
 `;
 
+const MainInfos = styled.View`
+  width: 100%;
+  align-items: center;
+`;
+
 const Username = styled.Text`
   font-size: 18px;
   color: #E6EDF3;
 `;
 
+const IDView = styled.View`
+  flex-direction: row;
+  column-gap: 5px;
+`;
+
+const IDLabel = styled.Text`
+  color: #8B949E;
+`;
+
+const ID = styled.Text`
+  color: #E6EDF3;
+`;
+
 const InfosView = styled.View`
   row-gap: 10px;
+`;
+
+const FollowersView = styled.View`
+  width: 100%;
+  flex-direction: row;
+  justify-content: flex-end;
+  column-gap: 5px;
+`;
+
+const Followers = styled.Text`
+  color: #E6EDF3;
+`;
+
+const FollowersLabel = styled.Text`
+  color: #8B949E;
 `;
 
 const Info = styled.View`
@@ -201,7 +251,18 @@ const RepositoriesContainer = styled.View`
   row-gap: 10px;
 `;
 
+const HeaderRepositories = styled.View`
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
 const RepositoriesLabel = styled.Text`
+  color: #8B949E;
+`;
+
+const RepositoriesNumber = styled.Text`
+  text-decoration: underline;
   color: #E6EDF3;
 `;
 
@@ -221,6 +282,7 @@ const RepositoryView = styled.Pressable`
 const TopFromRepository = styled.View`
   flex-direction: row;
   align-items: center;
+  column-gap: 10px;
 `;
 
 const RepositoryNameView = styled.Text`
@@ -240,10 +302,26 @@ const RepositoryLang = styled.Text`
   color: #E6EDF3;
 `;
 
-const Description = styled.View`
+const DescriptionView = styled.View`
 
+`;
+
+const Description = styled.Text`
+  color: #c1c6ca;
 `;
 
 const Dates = styled.View`
   flex-direction: row;
+`;
+
+const DateView = styled.View`
+  flex: 1;
+`;
+
+const DateLabel = styled.Text`
+  color: #8B949E;
+`;
+
+const DateValue = styled.Text`
+  color: #c1c6ca;
 `;

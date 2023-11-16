@@ -32,20 +32,6 @@ export default function Main(): React.JSX.Element {
   const [shownHistory, setShownHistory] = useState<boolean>(false);
   const [errorDisplay, setErrorDisplay] = useState<'flex' | 'none'>('none');
 
-  useEffect(() => {
-    const getSavedHistory = async function(): Promise<void> {
-      const storedHistory: string | null = await AsyncStorage.getItem('saved-usernames');
-      if (storedHistory === null) {
-        const jsonHistory: string = JSON.stringify([]);
-        await AsyncStorage.setItem('saved-usernames', jsonHistory);
-        return;
-      }
-      const parsedHistory: string[] = JSON.parse(storedHistory);
-      setHistory(parsedHistory);
-    };
-    getSavedHistory();
-  }, []);
-
   const toggleHistory = function(): void {
     if (history.length === 0) return;
     setShownHistory(!shownHistory);
@@ -76,11 +62,7 @@ export default function Main(): React.JSX.Element {
       setProfileDisplay('flex');
 
       const containsInput: boolean = history.some(currentValue => currentValue === value);
-      if (!containsInput) {
-        setHistory([value, ...history]);
-        const jsonHistory: string = JSON.stringify([value, ...history]);
-        await AsyncStorage.setItem('saved-usernames', jsonHistory);
-      };
+      if (!containsInput) setHistory([value, ...history]);
     } catch {
       setErrorDisplay('flex');
     }
@@ -289,14 +271,12 @@ const ProfileContainer = styled.View`
   border: 1px solid #8B949E;
   border-radius: 10px;
   padding: 20px;
-  row-gap: 20px;
+  row-gap: 15px;
 `;
 
 const ImageContainer = styled.Pressable`
-  border-radius: 100px;
   align-items: center;
-  justify-content: center;
-  row-gap: 10px;
+  row-gap: 8px;
 `;
 
 const ImageView = styled.View`
