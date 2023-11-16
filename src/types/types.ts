@@ -1,3 +1,5 @@
+import { View } from "react-native";
+
 export type UserData = {
   avatar_url: string,
   name: string | null,
@@ -10,15 +12,16 @@ export type UserData = {
 };
 
 export type RootStackParamList = {
-  Home: undefined;
   Profile: UserData | undefined;
 };
 
-export type Repositories = {
+export type RepositoryType = {
   name: string;
   language: string | null;
   description: string | null;
   created_at: string;
   pushed_at: string;
   html_url: string;
-}[];
+};
+
+export type RepositoryProps = View['props'] & RepositoryType;

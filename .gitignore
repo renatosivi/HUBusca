@@ -33,6 +33,3 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
-
-# model
-data-user-model.txt

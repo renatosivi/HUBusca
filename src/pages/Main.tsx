@@ -1,6 +1,6 @@
-import { Text, View, Keyboard, Dimensions, Image, StatusBar } from 'react-native';
+import { View, Keyboard, Dimensions, Image, StatusBar } from 'react-native';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components/native';
 import React from 'react';
 import noImage from '../../assets/images/no-image.png';
@@ -8,7 +8,6 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList, UserData } from '../types/types';
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const noImageUri: string = Image.resolveAssetSource(noImage).uri;
 
@@ -280,7 +279,7 @@ const ImageContainer = styled.Pressable`
 `;
 
 const ImageView = styled.View`
-  border: 1px solid #8B949E;
+  border: 2px solid #8B949E;
   border-radius: 100px;
 `;
 

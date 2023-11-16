@@ -1,23 +1,23 @@
-import { View, Text, ScrollView, Linking, StatusBar } from "react-native";
+import { ScrollView, Linking, StatusBar } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { RootStackParamList, UserData } from "../types/types";
+import { UserData } from "../types/types";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components/native";
 import { Ionicons } from '@expo/vector-icons';
-import { StackNavigationProp } from "@react-navigation/stack";
-import { Repositories } from "../types/types";
+import { RepositoryType } from "../types/types";
+import Repository from "../components/Repositories";
 
 export default function Profile(): React.JSX.Element {
   const navigation = useNavigation();
   const {params} = useRoute();
   const {avatar_url, followers, id, location, login, name, public_repos, repos_url} = params as UserData;
-  const [repositories, setRepositories] = useState<Repositories>([]);
+  const [repositories, setRepositories] = useState<RepositoryType[]>([]);
 
   useEffect(() => {
-    const getRepos = async function(repos_url: string): Promise<Repositories | undefined> {
+    const getRepos = async function(repos_url: string): Promise<RepositoryType[] | undefined> {
       try {
-        const {data}: {data: Repositories} = await axios.get(repos_url);
+        const {data}: {data: RepositoryType[]} = await axios.get(repos_url);
         return data;
       } catch (error) {
         console.log(error);  
@@ -25,7 +25,7 @@ export default function Profile(): React.JSX.Element {
     };
 
     const requestRepos = async function() {
-      const data: Repositories | undefined = await getRepos(repos_url);
+      const data: RepositoryType[] | undefined = await getRepos(repos_url);
       if (data === undefined) {
         console.log(data);
         return;
@@ -40,19 +40,11 @@ export default function Profile(): React.JSX.Element {
     navigation.goBack();
   };
 
-  const openURL = async function(url: string): Promise<void> {
-    await Linking.openURL(url);
-  };
-
   return (
     <Container>
       <ProfileContainer>
         <BackButton onPress={goBack}>
-          <Ionicons
-            name='chevron-back'
-            size={32}
-            color='#7D8590'
-          />
+          <Ionicons name='chevron-back' size={32} color='#7D8590'/>
         </BackButton>
         <ImageContainer>
           <ImageView>
@@ -93,40 +85,7 @@ export default function Profile(): React.JSX.Element {
         </HeaderRepositories>
         <ScrollView>
           <RepositoriesSubContainer>
-            {repositories.map(({
-              name,
-              language,
-              description,
-              created_at,
-              pushed_at,
-              html_url,
-            }, index) => {
-              return (
-                <RepositoryView key={index} onPress={() => openURL(html_url)}>
-                  <TopFromRepository>
-                    <RepositoryNameView>
-                      <RepositoryName>{name}</RepositoryName>
-                    </RepositoryNameView>
-                    <RepositoryLangView>
-                      <RepositoryLang>{language}</RepositoryLang>
-                    </RepositoryLangView>
-                  </TopFromRepository>
-                  <DescriptionView style={{display: description === null ? 'none' : 'flex'}}>
-                    <Description>{description}</Description>
-                  </DescriptionView>
-                  <Dates>
-                    <DateView>
-                      <DateLabel>Criado em</DateLabel>
-                      <DateValue>{created_at.slice(0, 10).split('-').reverse().join('/')}</DateValue>
-                    </DateView>
-                    <DateView>
-                      <DateLabel>Último push em</DateLabel>
-                      <DateValue>{pushed_at.slice(0, 10).split('-').reverse().join('/')}</DateValue>
-                    </DateView>
-                  </Dates>
-                </RepositoryView>
-              );
-            })}
+            {repositories.map((value, index) => <Repository {...value} key={index}/>)}
           </RepositoriesSubContainer>
         </ScrollView>
       </RepositoriesContainer>          
@@ -164,7 +123,7 @@ const ImageContainer = styled.Pressable`
 `;
 
 const ImageView = styled.View`
-  border: 1px solid #8B949E;
+  border: 2px solid #8B949E;
   border-radius: 100px;
 `;
 
@@ -269,59 +228,4 @@ const RepositoriesNumber = styled.Text`
 const RepositoriesSubContainer = styled.View`
   flex-direction: column;
   row-gap: 10px;
-`;
-
-const RepositoryView = styled.Pressable`
-  border: 1px solid #8B949E;
-  border-radius: 10px;
-  padding: 10px;
-  background-color: #30363D;
-  row-gap: 5px;
-`;
-
-const TopFromRepository = styled.View`
-  flex-direction: row;
-  align-items: center;
-  column-gap: 10px;
-`;
-
-const RepositoryNameView = styled.Text`
-  flex: 2;
-`;
-
-const RepositoryName = styled.Text`
-  font-size: 16px;
-  color: #E6EDF3;
-`;
-
-const RepositoryLangView = styled.View`
-  flex: 1;
-`;
-
-const RepositoryLang = styled.Text`
-  color: #E6EDF3;
-`;
-
-const DescriptionView = styled.View`
-
-`;
-
-const Description = styled.Text`
-  color: #c1c6ca;
-`;
-
-const Dates = styled.View`
-  flex-direction: row;
-`;
-
-const DateView = styled.View`
-  flex: 1;
-`;
-
-const DateLabel = styled.Text`
-  color: #8B949E;
-`;
-
-const DateValue = styled.Text`
-  color: #c1c6ca;
 `;
