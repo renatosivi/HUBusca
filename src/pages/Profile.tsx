@@ -1,4 +1,4 @@
-import { ScrollView, Linking, StatusBar } from "react-native";
+import { ScrollView, StatusBar } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { UserData } from "../types/types";
 import { useEffect, useState } from "react";

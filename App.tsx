@@ -12,9 +12,6 @@ export default function App() {
       <Stack.Navigator initialRouteName='Main' screenOptions={{headerShown: false}}>
         <Stack.Screen name='Main' component={Main}/>
         <Stack.Screen name='Profile' component={Profile}/>
-        {/* <Stack.Screen name='Test'>
-          {(props) => <Test {...props}/>}
-        </Stack.Screen> */}
       </Stack.Navigator>  
     </NavigationContainer>
   );
