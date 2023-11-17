@@ -95,7 +95,6 @@ export default function Profile(): React.JSX.Element {
 }
 
 const Container = styled.View`
-  margin-top: ${() => StatusBar.currentHeight?.toString() + 'px'};
   flex: 1;
   padding: 20px;
   padding-top: 60px;
