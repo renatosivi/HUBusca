@@ -75,7 +75,7 @@ export default function Main(): React.JSX.Element {
 
   return (
     <Container>
-      <StatusBar translucent={true}/>
+      <StatusBar translucent={false} backgroundColor={'#0D1117'}/>
       <Header>
         <Logo>HUBusca</Logo>
         <HistoryButton
@@ -92,7 +92,7 @@ export default function Main(): React.JSX.Element {
         </HistoryButton>
       </Header>
 
-      <View>
+      <SearchView>
         <InputLabel>Digite abaixo o nome de usuário</InputLabel>
         <Form>
           <Input
@@ -106,7 +106,7 @@ export default function Main(): React.JSX.Element {
             <ButtonText>Buscar</ButtonText>
           </Button>
         </Form>
-      </View>
+      </SearchView>
 
       <ErrorMessage style={{display: errorDisplay}}>
         <ErrorText>Nome de usuário inexistente</ErrorText>
@@ -141,13 +141,13 @@ export default function Main(): React.JSX.Element {
         </ImageContainer>
         <InfosView>
           <Info>
-            <TextLabel>Nome</TextLabel>
+            <InfoLabel>Nome</InfoLabel>
             <InfoContentView>
               <InfoContent>{userData.name}</InfoContent>
             </InfoContentView>
           </Info>
           <Info>
-            <TextLabel>Localização</TextLabel>
+            <InfoLabel>Localização</InfoLabel>
             <InfoContentView>
               <InfoContent>{userData.location}</InfoContent>
             </InfoContentView>
@@ -161,7 +161,7 @@ export default function Main(): React.JSX.Element {
 const Container = styled.View`
   flex: 1;
   padding: 20px;
-  padding-top: 60px;
+  padding-top: 40px;
   align-items: center;
   background-color: #0D1117;
 `;
@@ -185,11 +185,16 @@ const HistoryButton = styled.Pressable`
   padding: 5px;
 `;
 
+const SearchView = styled.View`
+  width: 100%;
+`;
+
 const Form = styled.View`
-  width: ${() => (Dimensions.get('window').width - 40).toString() + 'px'};
+  width: 100%;
   margin-bottom: 10px;
   flex-direction: row;
   justify-content: space-between;
+  column-gap: 10px;
 `;
 
 const InputLabel = styled.Text`
@@ -198,7 +203,7 @@ const InputLabel = styled.Text`
 `;
 
 const Input = styled.TextInput`
-  width: 275px;
+  flex: 1;
   height: 50px;
   border: 1px solid #8B949E;
   border-radius: 10px;
@@ -304,16 +309,16 @@ const InfosView = styled.View`
 
 const Info = styled.View`
   flex-direction: row;
-  column-gap: 20px;
+  column-gap: 15px;
 `;
 
-const TextLabel = styled.Text`
-  width: 80px;
+const InfoLabel = styled.Text`
+  flex: 7;
   color: #8B949E;
 `;
 
 const InfoContentView = styled.View`
-  flex: 1;
+  flex: 13;
   border-right-width: 1px;
   border-right-style: solid;
   border-right-color: #8B949E;
