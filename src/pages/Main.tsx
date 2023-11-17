@@ -60,8 +60,10 @@ export default function Main(): React.JSX.Element {
       setUserData(filteredData);
       setProfileDisplay('flex');
 
-      const containsInput: boolean = history.some(currentValue => currentValue === value);
-      if (!containsInput) setHistory([value, ...history]);
+      const containsInput: boolean = history.some(
+        currentValue => currentValue === filteredData.login
+      );
+      if (!containsInput) setHistory([filteredData.login, ...history]);
     } catch {
       setErrorDisplay('flex');
     }
@@ -73,6 +75,7 @@ export default function Main(): React.JSX.Element {
 
   return (
     <Container>
+      <StatusBar translucent={true}/>
       <Header>
         <Logo>HUBusca</Logo>
         <HistoryButton
@@ -130,10 +133,10 @@ export default function Main(): React.JSX.Element {
       </HistoryContainer>
 
       <ProfileContainer style={{display: profileDisplay}}>
-        <ImageContainer onPress={pushProfile}>
-          <ImageView>
+        <ImageContainer>
+          <ImageButton onPress={pushProfile}>
             <StyledImage source={{uri: userData.avatar_url}}/>
-          </ImageView>
+          </ImageButton>
           <Username>{userData.login}</Username>
         </ImageContainer>
         <InfosView>
@@ -156,10 +159,9 @@ export default function Main(): React.JSX.Element {
 }
 
 const Container = styled.View`
-  margin-top: ${() => StatusBar.currentHeight?.toString() + 'px'};
   flex: 1;
   padding: 20px;
-  padding-top: 50px;
+  padding-top: 60px;
   align-items: center;
   background-color: #0D1117;
 `;
@@ -192,7 +194,7 @@ const Form = styled.View`
 
 const InputLabel = styled.Text`
   margin-bottom: 5px;
-  color: #E6EDF3;
+  color: #8B949E;
 `;
 
 const Input = styled.TextInput`
@@ -271,14 +273,15 @@ const ProfileContainer = styled.View`
   border-radius: 10px;
   padding: 20px;
   row-gap: 15px;
+  background-color: #171e29;
 `;
 
-const ImageContainer = styled.Pressable`
+const ImageContainer = styled.View`
   align-items: center;
   row-gap: 8px;
 `;
 
-const ImageView = styled.View`
+const ImageButton = styled.Pressable`
   border: 2px solid #8B949E;
   border-radius: 100px;
 `;

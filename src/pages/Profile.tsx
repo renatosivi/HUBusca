@@ -42,6 +42,7 @@ export default function Profile(): React.JSX.Element {
 
   return (
     <Container>
+      <StatusBar translucent={true}/>
       <ProfileContainer>
         <BackButton onPress={goBack}>
           <Ionicons name='chevron-back' size={32} color='#7D8590'/>
@@ -97,6 +98,7 @@ const Container = styled.View`
   margin-top: ${() => StatusBar.currentHeight?.toString() + 'px'};
   flex: 1;
   padding: 20px;
+  padding-top: 60px;
   row-gap: 20px;
   background-color: #0D1117;
 `;
