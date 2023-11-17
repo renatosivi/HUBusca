@@ -20,7 +20,7 @@ export type RepositoryType = {
   language: string | null;
   description: string | null;
   created_at: string;
-  pushed_at: string;
+  pushed_at: string | null;
   html_url: string;
 };
 

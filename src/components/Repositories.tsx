@@ -15,8 +15,14 @@ export default function Repository({
   pushed_at,
   html_url,
 }: RepositoryProps): React.JSX.Element {
-  const formattedCreatedAt = created_at.slice(0, 10).split('-').reverse().join('/');
-  const formattedPushedAt = pushed_at.slice(0, 10).split('-').reverse().join('/');
+  console.log(created_at, pushed_at);
+  
+  const formattedCreatedAt: string = created_at.slice(0, 10).split('-').reverse().join('/');
+  const formattedPushedAt: string | null = (pushed_at === null) ? (
+    pushed_at
+  ) : (
+    pushed_at.slice(0, 10).split('-').reverse().join('/')
+  );
 
   return (
     <RepositoryView onPress={() => openURL(html_url)}>
